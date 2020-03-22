@@ -1,0 +1,21 @@
+
+.tree-icon {
+    cursor: pointer;
+    width: 15px;
+    display: inline-block;
+    margin: 0px 3px;
+}
+
+@keyframes show{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.tree-row-show{
+    display: table-row;
+    animation: show 1s linear 0s;
+}

@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<head>
+    <title>readme</title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="css/github-markdown.css" />
+    <link type="text/css" rel="stylesheet" href="css/tree-table.css" />
+</head>
+
+<body>
+    <script type="text/Javascript" src="js/tree-table.js"></script>
+    <script type="text/Javascript">
+
+        // test data1
+        const sampleDatas1 = [
+            { Prefectures: 'tokyo', Municipality: null, town: null, name: '東京都', value: 100 },
+            { Prefectures: 'tokyo', Municipality: 'chiyoda', town: null, name: '千代田区', value: 200 },
+            { Prefectures: 'tokyo', Municipality: 'chiyoda', town: 1, name: 'A町', value: 300 },
+            { Prefectures: 'tokyo', Municipality: 'chiyoda', town: 2, name: 'B町', value: 400 },
+            { Prefectures: 'tokyo', Municipality: 'chiyoda', town: 3, name: 'C町', value: 500 },
+            { Prefectures: 'tokyo', Municipality: 'chiyoda', town: 4, name: 'D町', value: 600 },
+            { Prefectures: 'tokyo', Municipality: 'chiyoda', town: 5, name: 'E町', value: 700 },
+            { Prefectures: 'tokyo', Municipality: 'chuou', town: null, name: '中央区', value: 800 },
+            { Prefectures: 'tokyo', Municipality: 'chuou', town: 1, name: 'F町', value: 1000 },
+            { Prefectures: 'tokyo', Municipality: 'chuou', town: 2, name: 'G町', value: 1100 },
+            { Prefectures: 'tokyo', Municipality: 'minato', town: null, name: '港区', value: 1200 },
+            { Prefectures: 'tokyo', Municipality: 'minato', town: 1, name: 'H町', value: 1300 },
+            { Prefectures: 'tokyo', Municipality: 'minato', town: 2, name: 'I町', value: 1400 },
+        ];
+
+        // test data2
+        const sampleDatas2 = [
+            { id: 1, sub1_Id: null, sub2_Id: null, sub3_Id: null, text: 'Parent1', value: 100 },
+            { id: 1, sub1_Id: 1, sub2_Id: null, sub3_Id: null, text: 'P1_child1', value: 200 },
+            { id: 1, sub1_Id: 1, sub2_Id: 1, sub3_Id: null, text: 'P1_c1_child1', value: 300 },
+            { id: 1, sub1_Id: 1, sub2_Id: 1, sub3_Id: 1, text: 'P1_c1_c1_child1', value: 400 },
+            { id: 1, sub1_Id: 1, sub2_Id: 1, sub3_Id: 2, text: 'P1_c1_c1_child2', value: 500 },
+            { id: 1, sub1_Id: 1, sub2_Id: 2, sub3_Id: null, text: 'P1_c1_child2', value: 600 },
+            { id: 1, sub1_Id: 1, sub2_Id: 3, sub3_Id: null, text: 'P1_c1_child3', value: 700 },
+            { id: 1, sub1_Id: 2, sub2_Id: null, sub3_Id: null, text: 'P1_child2', value: 800 },
+            { id: 1, sub1_Id: 2, sub2_Id: 1, sub3_Id: null, text: 'P1_c2_child1', value: 1000 },
+            { id: 1, sub1_Id: 2, sub2_Id: 2, sub3_Id: null, text: 'P1_c2_child2', value: 1100 },
+            { id: 1, sub1_Id: 3, sub2_Id: null, sub3_Id: null, text: 'P1_child3', value: 1200 },
+            { id: 2, sub1_Id: null, sub2_Id: null, sub3_Id: null, text: 'Parent2', value: 1300 },
+            { id: 2, sub1_Id: 1, sub2_Id: null, sub3_Id: null, text: 'P2_child1', value: 1400 },
+        ];
+
+        window.onload = function () {
+            createTable1();
+
+            // 設定2
+            var settingJson2 = {
+                // 作成する列(左から順に作成)
+                columns: ['text', 'value'],
+                // セル描画イベント
+                onDrawCellValue: {
+                    'text': function (value, cell, rowData) {
+                        cell.innerText = value;
+                    },
+                },
+                // 階層識別列(親要素 - 子要素 - 孫要素...)
+                levelColumns: ['id', 'sub1_Id', 'sub2_Id', 'sub3_Id'],
+                // 行描画イベント
+                onDrawRow: function (row, rowData) {
+                    row.className = 'tree-row';
+                },
+                // ヘッダー表示テキスト(左から順に作成)
+                headerLabels: ['text Head', 'value Head'],
+                // 開閉時のテキスト
+                iconStyle: {
+                    openText: '▽',
+                    closeText: '▷'
+                },
+                // ツリーを閉じた状態で表示する
+                isOpen: false,
+                // 画面遷移しても開閉状態を維持する
+                isTreeStatusKeep: true,
+            };
+            // treeTable作成
+            var treeTable2 = new treeTable(this.document.getElementById('sample-tree-table2'), settingJson2);
+            treeTable2.create(sampleDatas2);
+        };
+
+        function createTable1(params) {
+            // 設定1
+            var settingJson1 = {
+                // 作成する列(左から順に作成)
+                columns: ['name', 'value'],
+                // 階層識別列(親要素 - 子要素 - 孫要素)
+                levelColumns:['Prefectures', 'Municipality', 'town']
+            };
+            var treeTable1 = new treeTable(this.document.getElementById('sample-tree-table1'), settingJson1);
+            treeTable1.create(sampleDatas1);
+        }
+
+        function deleteTable1() {
+            var treeTable1 = new treeTable(this.document.getElementById('sample-tree-table1'), null);
+            treeTable1.destroy();
+        }
+    </script>
+    <h1>
+        tree table
+    </h1>
+    
+    <div>
+        <h3>
+            サンプル1
+        </h3>
+        <table id="sample-tree-table1">
+            <thead>
+                <tr>
+                    <td>名称</td>
+                    <td>値</td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div>
+        <h3>
+            サンプル2
+        </h3>
+        <form id="" style="padding: 10px 0px;">
+            <button type="submit">
+                展開状態を維持しているか確認
+            </button>
+            <button type="button" onclick="deleteTable1();">
+                サンプル1テーブル削除
+            </button>
+        </form>
+        <table id="sample-tree-table2">
+        </table>
+    </div>
+</body>
